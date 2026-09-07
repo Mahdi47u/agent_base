@@ -1,0 +1,44 @@
+[project]
+name = "django-agent-base"
+version = "0.1.0"
+description = "Reusable Django and LangGraph agent backend"
+requires-python = ">=3.12"
+dependencies = [
+  "Django>=5.2,<6.1",
+  "djangorestframework>=3.16,<4",
+  "langchain-core>=1.0,<2",
+  "langchain-openai>=1.0,<2",
+  "langgraph>=1.0,<2",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.4,<9",
+  "pytest-django>=4.11,<5",
+  "ruff>=0.14,<1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agentkit"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py"]
+testpaths = ["tests"]
+addopts = ["--tb=short"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "DJ", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/agentkit/migrations/*" = ["E501", "I001"]
+"tests/*" = ["B017"]
